@@ -197,17 +197,21 @@ def get_exercices_groupes(db_rows):
 
 @app.route("/")
 def index():
-    seances_types, _ = q("SELECT * FROM seances_types ORDER BY nom", fetch="all")
-    dernieres_seances, _ = q(
-        "SELECT * FROM seances ORDER BY date DESC, id DESC LIMIT 5", fetch="all"
-    )
-    total_row, _ = q("SELECT COUNT(*) as c FROM seances", fetch="one")
-    return render_template(
-        "index.html",
-        seances_types=seances_types,
-        dernieres_seances=dernieres_seances,
-        total_seances=total_row["c"],
-    )
+    try:
+        seances_types, _ = q("SELECT * FROM seances_types ORDER BY nom", fetch="all")
+        dernieres_seances, _ = q(
+            "SELECT * FROM seances ORDER BY date DESC, id DESC LIMIT 5", fetch="all"
+        )
+        total_row, _ = q("SELECT COUNT(*) as c FROM seances", fetch="one")
+        return render_template(
+            "index.html",
+            seances_types=seances_types,
+            dernieres_seances=dernieres_seances,
+            total_seances=total_row["c"],
+        )
+    except Exception as e:
+        print(f"ERREUR INDEX: {e}", flush=True)
+        return f"Erreur: {str(e)}", 500
 
 
 @app.route("/nouvelle-seance", methods=["GET", "POST"])
@@ -530,8 +534,19 @@ def supprimer_seance_type(type_id):
     return redirect(url_for("seances_types_liste"))
 
 
-init_db()
+if __name__ != "__main__":
+    # Lors du démarrage avec gunicorn, tester la connexion
+    try:
+        init_db()
+        print("✓ Base de données initialisée avec succès", flush=True)
+    except Exception as e:
+        print(f"✗ ERREUR lors de l'initialisation de la BD: {e}", flush=True)
 
 if __name__ == "__main__":
+    try:
+        init_db()
+        print("✓ Base de données initialisée avec succès")
+    except Exception as e:
+        print(f"✗ ERREUR lors de l'initialisation de la BD: {e}")
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
