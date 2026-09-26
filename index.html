@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Accueil — Suivi Muscu{% endblock %}
+{% block content %}
+<h1>Salle</h1>
+
+<div class="card">
+    <div class="card-header">
+        <span class="stat-label">Séances enregistrées</span>
+    </div>
+    <div class="stat">{{ total_seances }}</div>
+</div>
+
+<a href="{{ url_for('nouvelle_seance') }}" class="btn btn-primary" style="margin-bottom:14px;">＋ Nouvelle séance</a>
+
+{% if seances_types %}
+<h3>Charger une séance type</h3>
+<div class="btn-row" style="flex-wrap:wrap; gap:8px; margin-bottom:20px;">
+    {% for t in seances_types %}
+    <a href="{{ url_for('nouvelle_seance', type_id=t.id) }}" class="btn btn-ghost btn-sm">{{ t.nom }}</a>
+    {% endfor %}
+</div>
+{% endif %}
+
+<h3>Dernières séances</h3>
+{% if dernieres_seances %}
+    {% for s in dernieres_seances %}
+    <a href="{{ url_for('modifier_seance', seance_id=s.id) }}" class="card" style="display:block;">
+        <span class="seance-date">{{ s.date }}</span>
+        {% if s.notes %}<p style="margin-top:6px;">{{ s.notes }}</p>{% endif %}
+    </a>
+    {% endfor %}
+    <a href="{{ url_for('historique') }}" class="muted-link">Voir tout l'historique →</a>
+{% else %}
+    <div class="empty-state">Aucune séance pour l'instant.<br>Commence par en ajouter une !</div>
+{% endif %}
+{% endblock %}

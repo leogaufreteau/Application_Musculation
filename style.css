@@ -1,0 +1,334 @@
+:root {
+    --bg: #0E0E10;
+    --surface: #19191C;
+    --surface-2: #212124;
+    --border: #2C2C30;
+    --text: #F3F2F0;
+    --text-muted: #9C9BA3;
+    --red: #E4002B;
+    --red-hover: #FF2C4C;
+    --red-dim: rgba(228, 0, 43, 0.14);
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    padding-top: calc(56px + env(safe-area-inset-top));
+    min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---- Topbar ---- */
+.topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: calc(56px + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 18px;
+    z-index: 10;
+}
+.topbar-mark {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--text);
+}
+.topbar-mark-accent { color: var(--red); }
+.topbar-title {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    border-left: 1px solid var(--border);
+    padding-left: 12px;
+}
+
+/* ---- Bottom nav ---- */
+.bottomnav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: calc(64px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    z-index: 10;
+}
+.navitem {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 500;
+}
+.navitem .navicon {
+    font-size: 20px;
+    line-height: 1;
+}
+.navitem.active {
+    color: var(--red);
+}
+
+/* ---- Content ---- */
+.content {
+    padding: 18px 16px 24px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    margin: 0 0 12px;
+}
+h1 { font-size: 32px; }
+h2 { font-size: 24px; }
+h3 { font-size: 19px; }
+
+p { line-height: 1.5; color: var(--text-muted); }
+
+/* ---- Cards ---- */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 14px;
+}
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.stat {
+    font-family: var(--font-display);
+    font-size: 40px;
+    color: var(--red);
+    line-height: 1;
+}
+.stat-label {
+    color: var(--text-muted);
+    font-size: 13px;
+    text-transform: none;
+}
+
+/* ---- Buttons ---- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 13px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+}
+.btn-primary:hover { background: var(--red-hover); }
+.btn-ghost {
+    background: transparent;
+}
+.btn-danger {
+    background: transparent;
+    color: var(--red);
+    border-color: var(--red);
+}
+.btn-row { display: flex; gap: 10px; }
+.btn-row .btn { width: auto; flex: 1; }
+.btn-sm { padding: 8px 12px; font-size: 13px; width: auto; }
+
+/* ---- Forms ---- */
+label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+input, select, textarea {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 12px;
+    font-size: 15px;
+    font-family: var(--font-body);
+    margin-bottom: 14px;
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--red);
+}
+textarea { resize: vertical; min-height: 60px; }
+.field-row { display: flex; gap: 10px; }
+.field-row > div { flex: 1; }
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.checkbox-row input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+.checkbox-row label { margin: 0; }
+
+/* ---- Exercise row (formulaire séance) ---- */
+.exo-row {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 12px;
+    position: relative;
+}
+.exo-row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.exo-remove {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+.rp-block {
+    background: var(--red-dim);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 4px;
+}
+.rp-block input { margin-bottom: 0; }
+.rp-badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+}
+
+/* ---- Historique ---- */
+.filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+.filters select { width: auto; margin: 0; flex-shrink: 0; }
+
+.seance-card { margin-bottom: 16px; }
+.seance-date {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--text);
+}
+.perf-line {
+    border-top: 1px solid var(--border);
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+.perf-name { font-weight: 600; font-size: 14px; }
+.perf-meta { color: var(--text-muted); font-size: 13px; }
+.perf-comment { color: var(--text-muted); font-size: 13px; font-style: italic; margin-top: 4px; }
+.ressenti-dots { color: var(--red); letter-spacing: 2px; font-size: 12px; }
+
+/* ---- Graphiques ---- */
+.chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+}
+.rp-display {
+    text-align: center;
+    margin-top: 14px;
+    padding: 12px;
+    background: var(--red-dim);
+    border-radius: 8px;
+    font-size: 14px;
+}
+.rp-display b { color: var(--red); font-family: var(--font-display); font-size: 18px; }
+
+/* ---- Groupes musculaires (accordion) ---- */
+.groupe-block { margin-bottom: 8px; }
+.groupe-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--red);
+    font-weight: 700;
+    margin: 18px 0 8px;
+}
+
+/* ---- Types de séance ---- */
+.type-card { margin-bottom: 12px; }
+.type-exo-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+.type-exo-tag {
+    background: var(--surface-2);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.muted-link { color: var(--text-muted); font-size: 13px; text-decoration: underline; }

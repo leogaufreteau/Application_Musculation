@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Historique{% endblock %}
+{% block content %}
+<h1>Historique</h1>
+
+<form method="GET" class="filters">
+    <select name="tri" onchange="this.form.submit()">
+        <option value="date" {{ 'selected' if tri == 'date' }}>Trier par date</option>
+        <option value="exercice" {{ 'selected' if tri == 'exercice' }}>Trier par exercice</option>
+        <option value="groupe" {{ 'selected' if tri == 'groupe' }}>Trier par groupe</option>
+    </select>
+    <select name="groupe" onchange="this.form.submit()">
+        <option value="">Tous les groupes</option>
+        {% for g in groupes %}
+        <option value="{{ g }}" {{ 'selected' if groupe == g }}>{{ g }}</option>
+        {% endfor %}
+    </select>
+    <select name="exercice_id" onchange="this.form.submit()">
+        <option value="">Tous les exercices</option>
+        {% for ex in exercices %}
+        <option value="{{ ex.id }}" {{ 'selected' if exercice_id == ex.id|string }}>{{ ex.nom }}</option>
+        {% endfor %}
+    </select>
+</form>
+
+{% if seances %}
+    {% for s in seances %}
+    <div class="card seance-card">
+        <div class="card-header">
+            <span class="seance-date">{{ s.date }}</span>
+            <div class="btn-row">
+                <a href="{{ url_for('modifier_seance', seance_id=s.id) }}" class="btn btn-sm btn-ghost">Modifier</a>
+                <form method="POST" action="{{ url_for('supprimer_seance', seance_id=s.id) }}" onsubmit="return confirm('Supprimer cette séance ?');">
+                    <button type="submit" class="btn btn-sm btn-danger">Suppr.</button>
+                </form>
+            </div>
+        </div>
+        {% if s.notes %}<p>{{ s.notes }}</p>{% endif %}
+        {% for p in s.performances %}
+        <div class="perf-line">
+            <div>
+                <div class="perf-name">{{ p.exercice_nom }} <span style="color:var(--text-muted); font-weight:400;">— {{ p.groupe_musculaire }}</span></div>
+                <div class="perf-meta">
+                    {% if p.poids %}{{ p.poids }} kg{% endif %}
+                    {% if p.reps %} · {{ p.reps }} reps{% endif %}
+                    {% if p.series %} · {{ p.series }} séries{% endif %}
+                    {% if p.est_rp %} · <span class="rp-badge">RP {{ p.poids_rp }} kg</span>{% endif %}
+                </div>
+                {% if p.ressenti %}<div class="ressenti-dots">{{ '●' * p.ressenti }}{{ '○' * (5 - p.ressenti) }}</div>{% endif %}
+                {% if p.commentaire %}<div class="perf-comment">{{ p.commentaire }}</div>{% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="empty-state">Aucune séance ne correspond à ces filtres.</div>
+{% endif %}
+{% endblock %}
